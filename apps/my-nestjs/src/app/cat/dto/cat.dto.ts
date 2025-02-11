@@ -1,6 +1,7 @@
 import { IsString, IsInt, Min, Max } from 'class-validator';
+import { Cat } from '../cat.interface';
 
-export class CreateCatDto {
+export class CreateCatDto implements Cat {
   @IsString()
   name: string;
 
