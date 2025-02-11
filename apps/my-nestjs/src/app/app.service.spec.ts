@@ -1,20 +1,41 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { AppService } from './app.service';
+import { LoginService } from './login/login.service';
 
 describe('AppService', () => {
-  let service: AppService;
+  let appService: AppService;
+  let loginService: LoginService;
 
-  beforeAll(async () => {
-    const app = await Test.createTestingModule({
-      providers: [AppService],
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        AppService,
+        {
+          provide: LoginService,
+          useValue: {
+            getConfig: jest.fn().mockReturnValue({ apiKey: 'test-key' }), // Mock return value
+          },
+        },
+      ],
     }).compile();
 
-    service = app.get<AppService>(AppService);
+    appService = module.get<AppService>(AppService);
+    loginService = module.get<LoginService>(LoginService);
   });
 
-  describe('getData', () => {
-    it('should return "Hello API"', () => {
-      expect(service.getData()).toEqual({ message: 'Hello API' });
-    });
+  it('should be defined', () => {
+    expect(appService).toBeDefined();
+  });
+
+  it('should call loginService.getConfig() and return message', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+
+    const result = appService.getData();
+
+    expect(loginService.getConfig).toHaveBeenCalled();
+    expect(consoleSpy).toHaveBeenCalledWith({ apiKey: 'test-key' });
+    expect(result).toEqual({ message: 'Hello API' });
+
+    consoleSpy.mockRestore();
   });
 });
