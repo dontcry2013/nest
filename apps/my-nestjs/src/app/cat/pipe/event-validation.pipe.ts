@@ -31,7 +31,3 @@ export class EventValidationPipe implements PipeTransform {
     return { eventType: value.type, data: dtoInstance };
   }
 }
-
-export const EventValidationPipeFactory = (dtoMap: Record<string, any>) => {
-  return new EventValidationPipe(dtoMap);
-};
