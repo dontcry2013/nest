@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Post,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { CloudEventTransformPipe } from './pipe/cloud-event.pipe';
 import { SiameseDto } from './dto/siamese.dto';
 import { RagDollDto } from './dto/rag-doll.dto';
 import { EventValidationPipeFactory } from './pipe/event-validation-factory';
+import { LoggingInterceptor } from './logging.interceptor';
 
 @Controller('cat')
 export class CatController {
@@ -28,6 +30,7 @@ export class CatController {
   }
 
   @Post('fluffy')
+  @UseInterceptors(LoggingInterceptor)
   @UsePipes(
     PubSubBodyTransformPipe,
     EventValidationPipeFactory({
