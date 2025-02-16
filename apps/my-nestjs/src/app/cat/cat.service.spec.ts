@@ -1,18 +1,25 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { CatService } from './cat.service';
+import { Cat } from './cat.interface';
+import { PinoLogger } from 'nestjs-pino';
 
 describe('CatService', () => {
-  let service: CatService;
+  let catService: CatService;
+  let logger: PinoLogger;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [CatService],
-    }).compile();
-
-    service = module.get<CatService>(CatService);
+  beforeEach(() => {
+    logger = {
+      info: jest.fn(),
+    } as unknown as PinoLogger;
+    catService = new CatService(logger);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  test('should create a cat and log the info', () => {
+    const cat: Cat = { name: 'Fluffy', age: 5, breed: 'Siamese' };
+
+    const result = catService.create(cat);
+
+    expect(result).toEqual('This action adds a new cat');
+    expect(logger.info).toHaveBeenCalledTimes(1);
+    expect(logger.info).toHaveBeenCalledWith(cat, 'cat received');
   });
 });
