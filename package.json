@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run-many -t serve --all --parallel",
+    "build": "nx affected --target=build",
+    "start": "nx run-many --target=serve --all --parallel",
+    "test": "nx affected --target=test --exclude=*-e2e",
     "format": "nx format:check",
     "format-fix": "nx format:write",
-    "test": "nx affected --target=test --exclude=*-e2e",
-    "lint": "nx affected --target=lint"
+    "lint": "nx affected --target=lint",
+    "docker:run": "docker run -it --init --rm -v $(pwd)/.env:/home/node/my-nestjs/.env my-nestjs"
   },
   "private": true,
   "dependencies": {

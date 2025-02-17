@@ -1,0 +1,17 @@
+# Ignore dependencies (each Dockerfile installs its own)
+
+node_modules
+
+# Ignore Git-related files
+
+.git
+.gitignore
+
+# Ignore editor/OS-specific files
+
+.DS_Store
+.vscode
+
+# Ignore environment files (if not needed in the image)
+
+.env

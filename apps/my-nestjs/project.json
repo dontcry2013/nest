@@ -38,6 +38,14 @@
       "options": {
         "passWithNoTests": true
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/my-nestjs/Dockerfile . -t my-nestjs"
+    },
+    "docker-run": {
+      "dependsOn": ["docker-build"],
+      "command": "npm run docker:run"
     }
   }
 }

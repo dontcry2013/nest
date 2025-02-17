@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,6 +10,8 @@ import { CatModule } from './cat/cat.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: path.resolve(__dirname, '.env'), // Specify the path to your .env file
+      load: [() => process.env],
       validate,
       isGlobal: true,
     }),
