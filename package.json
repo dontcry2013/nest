@@ -9,7 +9,8 @@
     "format": "nx format:check",
     "format-fix": "nx format:write",
     "lint": "nx affected --target=lint",
-    "docker:run": "docker run -it --init --rm -v $(pwd)/.env:/home/node/my-nestjs/.env my-nestjs"
+    "docker:bulid": "docker build -f apps/my-nestjs/Dockerfile . -t my-nestjs",
+    "docker:run": "docker run -it --init --rm -v $(pwd)/.env:/home/node/my-nestjs/.env -p 3000:3000 my-nestjs"
   },
   "private": true,
   "dependencies": {
