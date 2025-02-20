@@ -10,7 +10,9 @@
     "format-fix": "nx format:write",
     "lint": "nx affected --target=lint",
     "docker:bulid": "docker build -f apps/my-nestjs/Dockerfile . -t my-nestjs",
-    "docker:run": "docker run -it --init --rm -v $(pwd)/.env:/home/node/my-nestjs/.env -p 3000:3000 my-nestjs"
+    "docker:run": "docker run -it --init --rm -v $(pwd)/.env:/home/node/my-nestjs/.env -p 3000:3000 my-nestjs",
+    "docker:up": "docker compose --profile apps -f docker-compose.yml up -d --build",
+    "docker:down": "docker compose --profile apps -f docker-compose.yml down"
   },
   "private": true,
   "dependencies": {

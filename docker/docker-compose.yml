@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgis/postgis:17-3.5-alpine
+    profiles:
+      - apps
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      my-network:
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    profiles:
+      - apps
+    ports:
+      - '8081:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      my-network:
+    depends_on:
+      - postgres
+
+  my-nestjs:
+    build:
+      context: ../
+      dockerfile: apps/my-nestjs/Dockerfile
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    volumes:
+      - ../.env:/home/node/my-nestjs/.env
+    depends_on:
+      - postgres
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  pgdata:

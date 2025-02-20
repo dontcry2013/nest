@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "icon": {
+        "id": "robot",
+        "color": "terminal.ansiGreen"
+      },
+      "type": "npm",
+      "script": "docker:up",
+      "problemMatcher": [],
+      "label": "npm: docker:up",
+      "detail": "docker compose --profile apps -f docker-compose.yml up -d --build"
+    },
+    {
+      "icon": {
+        "id": "alert",
+        "color": "terminal.ansiRed"
+      },
+      "type": "npm",
+      "script": "docker:down",
+      "problemMatcher": [],
+      "label": "npm: docker:down",
+      "detail": "docker compose --profile apps -f docker-compose.yml down"
+    }
+  ]
+}
